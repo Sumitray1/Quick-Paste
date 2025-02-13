@@ -55,7 +55,7 @@ export default function TextPage({
         <div className="flex items-end flex-col relative">
           <textarea
             value={text || ""}
-            draggable={!isSender}
+            disabled={!isSender}
             onChange={(e) => {
               setText(e.target.value);
               setIsSaved(false); // Reset saved state when user types
