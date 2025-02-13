@@ -55,6 +55,7 @@ export default function TextPage({
         <div className="flex items-end flex-col relative">
           <textarea
             value={text || ""}
+            draggable={!isSender}
             onChange={(e) => {
               setText(e.target.value);
               setIsSaved(false); // Reset saved state when user types
@@ -70,19 +71,20 @@ export default function TextPage({
               <FaCopy /> {isCopied ? "Copied!" : "Copy"}
             </p>
           </button>
-
           <div className="flex gap-4 mt-3">
-            <button
-              className={`mt-4 text-white px-4 py-2 rounded ${
-                prevText === text
-                  ? "bg-gray-500 cursor-not-allowed"
-                  : "bg-blue-500"
-              }`}
-              onClick={handleEdit}
-              disabled={prevText === text}
-            >
-              {isSaved ? "Changes Saved" : "Save Changes"}
-            </button>
+            {isSender && (
+              <button
+                className={`mt-4 text-white px-4 py-2 rounded ${
+                  prevText === text
+                    ? "bg-gray-500 cursor-not-allowed"
+                    : "bg-blue-500"
+                }`}
+                onClick={handleEdit}
+                disabled={prevText === text}
+              >
+                {isSaved ? "Changes Saved" : "Save Changes"}
+              </button>
+            )}
           </div>
         </div>
       </div>
