@@ -2,20 +2,15 @@
 import { useTheme } from "next-themes";
 import { useState, useEffect } from "react";
 import DarkModeSwitch from "./components/DarkModeSwitch";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
   const [text, setText] = useState("");
   const [link, setLink] = useState("");
   const [id, setId] = useState<string | null>(null);
   const [isSender, setIsSender] = useState(false);
-  const { theme, setTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
+  const router = useRouter();
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  // if (!mounted) return null; // Avoid hydration mismatch
   useEffect(() => {
     const storedId = localStorage.getItem("quicktext_id");
     if (storedId) {
@@ -45,7 +40,9 @@ export default function Home() {
 
     const data = await res.json();
     if (data.success) {
-      setLink(window.location.origin + `/${id}`);
+      const newLink = window.location.origin + `/${id}`;
+      setLink(newLink);
+      router.push(newLink);
     }
   };
 
@@ -80,20 +77,13 @@ export default function Home() {
             />
 
             <div className="flex gap-4 mt-3">
-              {link === "" ? (
-                <button
-                  className="bg-blue-500 text-white px-4 py-2 rounded  hover:bg-blue-600"
-                  onClick={handleSubmit}
-                >
-                  Share Now
-                </button>
-              ) : (
-                <a href={link} target="_blank">
-                  <button className="bg-blue-500 text-white px-4 py-2 rounded  hover:bg-blue-600">
-                    Visit
-                  </button>
-                </a>
-              )}
+              <button
+                className="bg-blue-500 text-white px-4 py-2 rounded  hover:bg-blue-600"
+                onClick={handleSubmit}
+              >
+                Share Now
+              </button>
+
               <button
                 className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-slate-600"
                 onClick={handleNewText}
