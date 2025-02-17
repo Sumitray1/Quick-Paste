@@ -1,12 +1,21 @@
 "use client";
+import { useTheme } from "next-themes";
 import { useState, useEffect } from "react";
+import DarkModeSwitch from "./components/DarkModeSwitch";
 
 export default function Home() {
   const [text, setText] = useState("");
   const [link, setLink] = useState("");
   const [id, setId] = useState<string | null>(null);
   const [isSender, setIsSender] = useState(false);
+  const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
 
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // if (!mounted) return null; // Avoid hydration mismatch
   useEffect(() => {
     const storedId = localStorage.getItem("quicktext_id");
     if (storedId) {
@@ -48,41 +57,46 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
-      <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-[80%] ">
-        <h1 className="text-2xl font-bold mb-4">Quick Paste</h1>
-        <div className="flex items-end flex-col">
-          <textarea
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded-lg mb-4 min-h-[60vh]"
-            placeholder="Enter your text or code here..."
-          />
+    <>
+      <div className="min-h-screen dark:bg-gray-900 flex items-center justify-center">
+        <div className="absolute top-6 right-6">
+          <DarkModeSwitch />
+        </div>
+        <div className="dark:bg-gray-800  p-8 rounded-lg shadow-md w-full max-w-[80%] ">
+          <h1 className="text-2xl font-bold mb-4">Quick Paste</h1>
+          <div className="flex items-end flex-col">
+            <textarea
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+              className="w-full p-2 border dark:bg-gray-800  border-gray-300 rounded-lg mb-4 min-h-[60vh]"
+              placeholder="Enter your text or code here..."
+            />
 
-          <div className="flex gap-4 mt-3">
-            {link === "" ? (
-              <button
-                className="bg-blue-500 text-white px-4 py-2 rounded  hover:bg-blue-600"
-                onClick={handleSubmit}
-              >
-                Share Now
-              </button>
-            ) : (
-              <a href={link} target="_blank">
-                <button className="bg-blue-500 text-white px-4 py-2 rounded  hover:bg-blue-600">
-                  Visit
+            <div className="flex gap-4 mt-3">
+              {link === "" ? (
+                <button
+                  className="bg-blue-500 text-white px-4 py-2 rounded  hover:bg-blue-600"
+                  onClick={handleSubmit}
+                >
+                  Share Now
                 </button>
-              </a>
-            )}
-            <button
-              className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-slate-600"
-              onClick={handleNewText}
-            >
-              New Text
-            </button>
+              ) : (
+                <a href={link} target="_blank">
+                  <button className="bg-blue-500 text-white px-4 py-2 rounded  hover:bg-blue-600">
+                    Visit
+                  </button>
+                </a>
+              )}
+              <button
+                className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-slate-600"
+                onClick={handleNewText}
+              >
+                New Text
+              </button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }

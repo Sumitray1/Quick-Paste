@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState, use } from "react";
 import { FaCopy } from "react-icons/fa";
+import DarkModeSwitch from "../components/DarkModeSwitch";
 
 export default function TextPage({
   params,
@@ -49,8 +50,11 @@ export default function TextPage({
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
-      <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-[80%]">
+    <div className="min-h-screen flex items-center justify-center  dark:bg-gray-900 transition-colors duration-300">
+      <div className="absolute top-6 right-6">
+        <DarkModeSwitch />
+      </div>
+      <div className="dark:bg-gray-800 p-8 rounded-lg shadow-md w-full max-w-[80%] transition-colors duration-300">
         <h1 className="text-2xl font-bold mb-4">Quick Paste</h1>
         <div className="flex items-end flex-col relative">
           <textarea
@@ -58,26 +62,26 @@ export default function TextPage({
             disabled={!isSender}
             onChange={(e) => {
               setText(e.target.value);
-              setIsSaved(false); // Reset saved state when user types
+              setIsSaved(false);
             }}
-            className="w-full p-2 border border-gray-300 rounded-lg mb-4 min-h-[60vh]"
+            className="w-full p-2 border    dark:bg-gray-800 rounded-lg mb-4 min-h-[60vh] transition-colors duration-300"
             placeholder="Enter your text or code here..."
           />
           <button
             onClick={handleCopy}
-            className="px-2 py-1 rounded border border-gray-400 absolute top-2 right-2 z-10"
+            className="px-2 py-1 rounded border  dark:bg-gray-800 absolute top-2 right-2 z-10 transition-colors duration-300"
           >
-            <p className="flex items-center gap-1">
+            <p className="flex items-center gap-1 ">
               <FaCopy /> {isCopied ? "Copied!" : "Copy"}
             </p>
           </button>
           <div className="flex gap-4 mt-3">
             {isSender && (
               <button
-                className={`mt-4 text-white px-4 py-2 rounded ${
+                className={`mt-4 text-white px-4 py-2 rounded transition-colors duration-300 ${
                   prevText === text
                     ? "bg-gray-500 cursor-not-allowed"
-                    : "bg-blue-500"
+                    : "bg-blue-500 dark:bg-blue-600"
                 }`}
                 onClick={handleEdit}
                 disabled={prevText === text}
