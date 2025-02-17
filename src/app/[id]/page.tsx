@@ -55,7 +55,12 @@ export default function TextPage({
         <DarkModeSwitch />
       </div>
       <div className="dark:bg-gray-800 p-8 rounded-lg shadow-md w-full max-w-[80%] transition-colors duration-300">
-        <h1 className="text-2xl font-bold mb-4">Quick Paste</h1>
+        <div className="flex items-center justify-between  mb-4">
+          <h1 className="text-2xl font-bold">Quick Paste</h1>
+          <h2 className="font-normal text-xl">
+            Sharing Code - <span className="font-bold">{id}</span>
+          </h2>
+        </div>
         <div className="flex items-end flex-col relative">
           <textarea
             value={text || ""}

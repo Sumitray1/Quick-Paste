@@ -35,7 +35,7 @@ export default function Home() {
   const handleSubmit = async () => {
     if (!id) return;
 
-    localStorage.setItem("quicktext_id", id); // Save sender's ID
+    localStorage.setItem("quicktext_id", id);
 
     const res = await fetch(`/api/saveText?id=${id}`, {
       method: "POST",
@@ -63,7 +63,14 @@ export default function Home() {
           <DarkModeSwitch />
         </div>
         <div className="dark:bg-gray-800  p-8 rounded-lg shadow-md w-full max-w-[80%] ">
-          <h1 className="text-2xl font-bold mb-4">Quick Paste</h1>
+          <div className="flex items-center justify-between  mb-4">
+            <h1 className="text-2xl font-bold">Quick Paste</h1>
+            {link && (
+              <h2 className="font-normal text-xl">
+                Sharing Code - <span className="font-bold">{id}</span>
+              </h2>
+            )}
+          </div>
           <div className="flex items-end flex-col">
             <textarea
               value={text}
